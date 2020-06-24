@@ -13,6 +13,11 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * physics/grid features from website 
 * what it's lacking compared to other codes (see Claire/forrest's athena/enzo comments)
 
+### FLASH Architecture
+* Outline here or in slides?
+* Monitor (Logfile/timer), Driver, IO, physics, Infrastructure (Grid), Simulation
+* API and inheritance structure
+
 ### Downloading FLASH
 * cloning instructions 
 * 
