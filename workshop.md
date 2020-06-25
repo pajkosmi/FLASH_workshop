@@ -4,6 +4,8 @@
 
 Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
+* [History & Documentation](#flash-history-&-documentation)
+
 ### FLASH History & Documentation
 * FLASH Center website: http://flash.uchicago.edu/site/index.shtml
 * Code overview: http://flash.uchicago.edu/site/flashcode/
