@@ -4,7 +4,7 @@
 
 Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
-* [History & Documentation](#flash-history-&-documentation)
+* [History & Documentation](#flash-history-and-documentation)
 * [Features](#flash-features)
 * [Architecture](#flash-architecture)
 * [Get the Code](#downloading-flash)
@@ -13,7 +13,8 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * [New Test Problem](#creating-a-new-test-problem)
 * [Visualization](#visualization-and-data-analysis)
 
-### FLASH History & Documentation
+### FLASH History and Documentation
+* FLASH is a legacy code having been developed for over 2 decades
 * FLASH Center website: http://flash.uchicago.edu/site/index.shtml
 * Code overview: http://flash.uchicago.edu/site/flashcode/
 * User guide: http://flash.uchicago.edu/site/flashcode/user_support/flash4_ug_4p62.pdf
@@ -23,13 +24,20 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * what it's lacking compared to other codes (see Claire/forrest's athena/enzo comments)
 
 ### FLASH Architecture
-* Outline here or in slides?
-* Monitor (Logfile/timer), Driver, IO, physics, Infrastructure (Grid), Simulation
+* FLASH is composable; at runtime it picks and chooses the necessary 'components'
+  * Cuts down ~2e6 total lines of code to ~2e4 for a typical simulation 
+* FLASH is separated into 6 main units:
+  * Physics: contains relevant 'science' for a given simulation
+  * Simulation: contains the initial conditions to start a simulation
+  * Driver: evolves the simulation
+  * IO: manages input & output
+  * Infrastructure: handles things like how the grid is setup
+  * Monitor: tracks the simulation progress with log files and timing measures
 * API and inheritance structure
 
 ### Downloading FLASH
-* cloning instructions 
-* 
+* Please clone code from the master branch found at: https://github.com/snaphu-msu/BANG
+  * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
 
 ### Building a Test Problem
 * Proper makefile (taken care of already for hpcc)
