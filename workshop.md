@@ -5,6 +5,13 @@
 Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
 * [History & Documentation](#flash-history-&-documentation)
+* [Features](#flash-features)
+* [Architecture](#flash-architecture)
+* [Get the Code](#downloading-flash)
+* [Test Problem](#building-a-test-problem)
+* [Run on HPCC](#running-on-hpcc)
+* [New Test Problem](#creating-a-new-test-problem)
+* [Visualization](#visualization-and-data-analysis)
 
 ### FLASH History & Documentation
 * FLASH Center website: http://flash.uchicago.edu/site/index.shtml
@@ -37,7 +44,7 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * highlight where to look in log file
 * Scaling plots?
 
-### Building a New Test Problem
+### Creating a New Test Problem
 * (Mike this you will walk through)
 * New directory in simulation
 * Config: why it's there, what it is, what's needed
