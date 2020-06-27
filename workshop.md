@@ -5,13 +5,15 @@
 Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
 * [History & Documentation](#flash-history-and-documentation)
+* [Before the Workshop] (#before-the-workshop)
 * [Features](#flash-features)
 * [Architecture](#flash-architecture)
-* [Get the Code](#downloading-flash)
 * [Test Problem](#building-a-test-problem)
 * [Run on HPCC](#running-on-hpcc)
+* [Output Files](#output-files)
 * [New Test Problem](#creating-a-new-test-problem)
 * [Visualization](#visualization-and-data-analysis)
+* [New Physics](#new-physics)
 
 ### FLASH History and Documentation
 * FLASH is a legacy code having been developed for over 2 decades
@@ -19,9 +21,44 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * Code overview: http://flash.uchicago.edu/site/flashcode/
 * User guide: http://flash.uchicago.edu/site/flashcode/user_support/flash4_ug_4p62.pdf
 
+### Before the Workshop
+ * Load the necessary modules
+
+  ```
+  Module list here
+  asd
+  ```	
+ * Please clone code from the master branch found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory (mike ensure makefile = gnu works)
+   * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
+ * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=test_paramesh_2d.par -objdir=obj_Sedov_2D -makefile=gnu`
+ * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
+ * Run `make -j` to compile the code
+ * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
+ * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
+ * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
+ * Mike step for downloading slm.sub script
+
+ ```
+ slm stuff
+ asdf
+ asdf
+ ```
+
+ * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
+
+
 ### FLASH Features
-* physics/grid features from website 
-* what it's lacking compared to other codes (see Claire/forrest's athena/enzo comments)
+* Strengths
+  * Multiphysics: (Relativistic) MHD, Gravity, Radiation Transport, Equations of State, Nuclear reactions, Particles, Cosmology
+  * Adaptive mesh refinement
+  * OpenMP/MPI compatible
+  * 
+
+* Weaknesses
+  * Uniform timestepping (no time subcycling)
+  * what it's lacking compared to other codes (see Claire/forrest's athena/enzo comments)
+  *
+
 
 ### FLASH Architecture
 * FLASH is composable; at runtime it picks and chooses the necessary 'components'
@@ -35,95 +72,8 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
   * Monitor: tracks the simulation progress with log files and timing measures
 * API and inheritance structure
 
-### Downloading FLASH
-* Please clone code from the master branch found at: https://github.com/snaphu-msu/BANG
-  * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
 
 ### Building a Test Problem
-* Proper makefile (taken care of already for hpcc)
-* the setup process
-* the make process
-* ready to launch executable
-* the flash.par file
-
-### Running on HPCC
-* Outline batch submission
-* different scaling runs
-* highlight where to look in log file
-* Scaling plots?
-
-### Creating a New Test Problem
-* (Mike this you will walk through)
-* New directory in simulation
-* Config: why it's there, what it is, what's needed
-* Simulation_init(Block)
-* Customizing the flash.par file
-
-### Visualization and Data Analysis
-* VizIt for quick diagnostic
-* yt For pretty pictures and robust analysis
-
-
------------------------------------------------------
-
-#FLASH Workshop OShea Group
-##Mike Pajkos
-
-## Before the workshop 
-* Getting the code and compiling the code
-  * Load the necessary modules
-   
-   ```
-   Module list here
-   asd
-   ```	
-  * Clone the repository from the website into your hpcc home directory (mike ensure makefile = gnu works) using the https:/ link and enter the new `BANG/` directory
-  * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=test_paramesh_2d.par -objdir=obj_Sedov_2D -makefile=gnu`
-  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
-  * Run `make -j` to compile the code
-  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
-  * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
-  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
-  * Mike step for downloading slm.sub script
-    
-  ```
-  slm stuff
-  asdf
-  asdf
-  ```
-  
-  * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
-
-## Features:
-### Capabilites
-* Strengths
-  * Multiphysics: (Relativistic) MHD, Gravity, Radiation Transport, Equations of State, Nuclear reactions, Particles, Cosmology
-  * Adaptive mesh refinement
-  * OpenMP/MPI compatible
-  * 
-
-* Weaknesses
-  * Uniform timestepping (no time subcycling)
-  * 
-
-### Architecture
-* FLASH source tree, API, inheritance structure
-
-
-### Units 
-#### Infrastructure
-
-#### Driver
-
-#### IO
-
-#### physics
-
-#### Simulation
-
-## Setting up a Simulation
-
-### Explaining the setup process in detail
 * `./setup` is used to 'pick and choose' the lines of code FLASH needs for a simulation
   * Formally it links the needed source code into the object directory
   * We use a variety of setup *options* (ex. `-2d`, `-nxb=18`) & setup *shortcuts* (ex. `+spark`, `+pm4dev`) to specify everything from grid geometry to what kind of hydro solvers to use (Full list available in chapter 5.1 of user guide)
@@ -138,25 +88,29 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
   * The parameter file contains runtime parameters that allow the user to partially control the runtime environment (This must be in the same directory as the binary executable)
   * Some examples: the energy of the sedov explosion, physical size of the domain, CFL parameter, or how often to output a file (full list of possible parameters is generated in the `setup_params` file within the object directory
 
-## Output Files
+
+### Running on HPCC
+* Outline batch submission
+* different scaling runs
+* highlight where to look in log file
+* directions for different procs.  Maybe sean's plots here?
+
+### Output Files
 * talk about `.dat` `.log` `plt` `chk` files
 
-## Scaling Study
-* directions for different procs.  Maybe sean's plots here?
- 
-## Visualization
-  
-* yt & VizIt capabilites.  When to use which.
-  
-  
-## Creating a New Problem
-  
-* New directory in SimulationMain
-* Config file
-* flash.par file
-* Simulation Init
-* Simulation Init block
+
+### Creating a New Test Problem
+* (Mike this you will walk through)
+* New directory in simulationMain
+* Config: why it's there, what it is, what's needed
+* Simulation_init(Block)
+* Customizing the flash.par file
 
 
-## New physics?
+### Visualization and Data Analysis
+* VizIt for quick diagnostic
+* yt For pretty pictures and robust analysis
+
+
+### New physics?
 * New directory in physics unit.  Account for REQUIRES in Config? 
