@@ -5,7 +5,7 @@
 Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
 * [History & Documentation](#flash-history-and-documentation)
-* [Before the Workshop] (#before-the-workshop)
+* [Before the Workshop](#before-the-workshop)
 * [Features](#flash-features)
 * [Architecture](#flash-architecture)
 * [Test Problem](#building-a-test-problem)
@@ -22,11 +22,14 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * User guide: http://flash.uchicago.edu/site/flashcode/user_support/flash4_ug_4p62.pdf
 
 ### Before the Workshop
+ * Log onto HPCC, dev-intel16
  * Load the necessary modules
 
   ```
-  Module list here
-  asd
+module purge
+module load GCC/6.4.0-2.28
+module load OpenMPI/2.1.2
+module load HDF5/1.8.20
   ```	
  * Please clone code from the master branch found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory (mike ensure makefile = gnu works)
    * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
@@ -39,9 +42,31 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
  * Mike step for downloading slm.sub script
 
  ```
- slm stuff
- asdf
- asdf
+#!/bin/bash -login
+#SBATCH --time=00:20:00
+#SBATCH -n 1
+#SBATCH -c 2
+#SBATCH -J sedov_Xcores
+#SBATCH --mem-per-cpu=2G
+#SBATCH -e %J.e
+#SBATCH -o %J.o
+#SBATCH -C NOAUTO:intel16
+
+### load necessary modules, e.g.
+module purge
+module load GCC/6.4.0-2.28
+module load OpenMPI/2.1.2
+module load HDF5/1.8.20
+
+
+### change to the working directory where your code is located
+cd /mnt/home/your_username/path_to_run_directory/run_Sedov_FLASH/
+
+## call your executable
+srun -n $SLURM_NTASKS ./flash4 -par_file flash.par
+ 
+### output the resource usage of the job
+qstat -f $PBS_JOBID
  ```
 
  * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
@@ -61,15 +86,32 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
 
 ### FLASH Architecture
-* FLASH is composable; at runtime it picks and chooses the necessary 'components'
+* FLASH is written mostly in FORTRAN90
+* FLASH is composable; at runtime it picks and chooses the necessary 'components' it needs to model a physical situation
   * Cuts down ~2e6 total lines of code to ~2e4 for a typical simulation 
+* It has a 'tree like' structure beginning with broad, parent 'Unit directories' (always beginning with a capital letter) and branch to more specific functions and routines
+* In the high level directories there are often 'stub implementations'
+  * These are essentially 'no ops' that allow FLASH to compile easily even if a certain features of the code are left out (MIKE EXAMPLE grid refine)
+
 * FLASH is separated into 6 main units:
-  * Physics: contains relevant 'science' for a given simulation
-  * Simulation: contains the initial conditions to start a simulation
-  * Driver: evolves the simulation
-  * IO: manages input & output
-  * Infrastructure: handles things like how the grid is setup
-  * Monitor: tracks the simulation progress with log files and timing measures
+#### Physics
+* contains relevant 'science' for a given simulation
+#### Simulation
+* contains the initial conditions to start a simulation
+
+#### Driver
+* evolves the simulation
+
+#### IO
+* manages input & output
+
+#### Infrastructure
+* handles things like how the grid is setup
+
+#### Monitor
+* tracks the simulation progress with log files and timing measures
+
+
 * API and inheritance structure
 
 
