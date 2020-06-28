@@ -75,8 +75,9 @@ qstat -f $PBS_JOBID
 ### FLASH Features
 * Strengths
   * Multiphysics: (Relativistic) MHD, Gravity, Radiation Transport, Equations of State, Nuclear reactions, Particles, Cosmology
-  * Adaptive mesh refinement
+  * Adaptive mesh refinement (AMR) with flux correction on fine/coarse boundaries
   * OpenMP/MPI compatible
+  * IO compatibility with HDF5
   * 
 
 * Weaknesses
@@ -92,6 +93,8 @@ qstat -f $PBS_JOBID
 * It has a 'tree like' structure beginning with broad, parent 'Unit directories' (always beginning with a capital letter) and branch to more specific functions and routines
 * In the high level directories there are often 'stub implementations'
   * These are essentially 'no ops' that allow FLASH to compile easily even if a certain features of the code are left out (MIKE EXAMPLE grid refine)
+* Kernels are typically found at the finest (leaf) level of the FLASH architecture 
+  * This design helps modularity, by allowing new functionalities/solvers to be integrated into FLASH without rewriting existing code 
 
 * FLASH is separated into 6 main units:
 #### Physics
@@ -118,10 +121,10 @@ qstat -f $PBS_JOBID
 ### Building a Test Problem
 * `./setup` is used to 'pick and choose' the lines of code FLASH needs for a simulation
   * Formally it links the needed source code into the object directory
-  * We use a variety of setup *options* (ex. `-2d`, `-nxb=18`) & setup *shortcuts* (ex. `+spark`, `+pm4dev`) to specify everything from grid geometry to what kind of hydro solvers to use (Full list available in chapter 5.1 of user guide)
+  * We use a variety of setup *options* (ex. `-2d`, `-nxb=18`) & setup *shortcuts* (ex. `+spark`, `+pm4dev`) to specify everything from grid geometry to what kind of hydro solvers to use (Full list available in chapter 5.1 of user guide or in `BANG/bin/Readme.SetupVars`)
 * `make -j` compiles the selected code (in parallel) within the object directory
   * This is how we get the files we're interested in, namely the executable and parameter file
-  * The code is compiled based on the `Makefile` for dev-intel16.  If you look in the `BANG/sites/` directory, there are a variety of directories for different 'sites' or hardware platforms FLASH runs on.  
+  * The code is compiled based on the `Makefile.h` for dev-intel16.  If you look in the `BANG/sites/` directory, there are a variety of directories for different 'sites' or hardware platforms FLASH runs on.  
   * If you were to download FLASH on your laptop, you would add a directory with the same name as the `hostname` of your laptop and add a Makefile specifying the file paths needed for various libraries & compilers
 * `flash4` is the binary executable file
   * Remember this is built *for your system* (in our case hpcc).  You could not copy this over to a machine with a different configuration (ex. your laptop).  Instead you would have to setup & make again on the different machine.
@@ -143,11 +146,19 @@ qstat -f $PBS_JOBID
 
 ### Creating a New Test Problem
 * (Mike this you will walk through)
-* New directory in simulationMain
-* Config: why it's there, what it is, what's needed
-* Simulation_init(Block)
-* Customizing the flash.par file
-
+* For a new problem, you will need certain 'ingredients'.  Here we will setup Rayleigh-Taylor instability.
+  * First a we setup a directory in `/BANG/source/Simulation/SimulationMain/RayleighTaylor`
+  * `Config` files outline the necessary Units, physics, and variables (as well as their default values) needed to model the simulation
+    * These files are what is parsed by `setup` and specify exactly which lines of code are to be linked to in the object directory
+  * `Makefile` lists which source `.F90` files will be compiled
+  * `flash.par` specifies certain runtime parameters (ex. density of top fluid or number of refinement level)
+    * Note this is what is copied into the object directory when we run setup 
+  * `Simulation_data.F90` stores the variables specified in `flash.par`
+  * `Simulation_init.F90` initializes the values in `Simulation_data.F90` based on the values specified in `flash.par`
+  * `Simulation_initBlock.F90` assigns these newly initialized values onto the computational domain
+    * For this Rayliegh-Taylor example, it initially defines the denser fluid on top and less dense fluid below
+  * Run `./setup RayleighTaylor -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -objdir=obj_RTinstab_2D -makefile=gnu`
+  
 
 ### Visualization and Data Analysis
 * VizIt for quick diagnostic
