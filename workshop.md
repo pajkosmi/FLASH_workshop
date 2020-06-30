@@ -141,8 +141,24 @@ qstat -f $PBS_JOBID
 * directions for different procs.  Maybe sean's plots here?
 
 ### Output Files
-* talk about `.dat` `.log` `plt` `chk` files
-
+* The data file (`.dat`) file
+  * Contains globally summed qunatities: ex total mass, y momentum, magnetic energy
+  * User defined quantities can be defined in `IO_writeIntegralQuantities.F90`
+* Checkpoint (`_chk_`) files are used to restart a simulation
+  * Output at user defined frequency
+  * Used as preventative measure in case a system or code crashes
+  * Contains variables, species, grid reconstruction data, scalar values, and meta-data
+  * Note these files can fill directory space fast if output too often
+* Plot (`plt`) files contain info to interpret grid info
+  * Stores user defined variables (ex density, pressure) for analyzing/post-processing
+  * Not used for restarting simulations so these typically take up less data than `chk` files
+* Particle files contain info needed for analyzing/processing particle data
+* Log (`.log`) file contains various useful (meta)data , warnings, and errors--if present
+  * Can contain relevant git version, `setup` call, and parallel info
+  * Holds runtime parameters (`.par` info) and physical constants
+  * Also tracks when grid refinement occurs and number of blocks in domain
+  * Useful for performance measures by containing timing information in each unit (ex Hydro, Grid, Gravity, ...)
+  
 
 ### Creating a New Test Problem
 * (Mike this you will walk through)
