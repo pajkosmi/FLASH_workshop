@@ -97,26 +97,60 @@ qstat -f $PBS_JOBID
   * This design helps modularity, by allowing new functionalities/solvers to be integrated into FLASH without rewriting existing code 
 
 * FLASH is separated into 6 main units:
-#### Physics
-* contains relevant 'science' for a given simulation
-#### Simulation
-* contains the initial conditions to start a simulation
-
 #### Driver
-* evolves the simulation
-
-#### IO
-* manages input & output
+* Controls initialization and evolution of simulations
+* Organizes interaction between units
+* Responsible for launching the parallel environment
 
 #### Infrastructure
-* handles things like how the grid is setup
+* Grid
+
+* IO
+
+* Runtime parameters
+
+* Multispecies
+
+* Physical Constants
+
+
+#### Physics
+* (Relativistic) MHD
+
+* Equation of State
+
+* Local Source Terms
+
+* Diffusive Terms
+
+* Gravity 
+
+* Particles
+
+* Cosmology
+
+* Material Properties
+
+* Radiative Transfer
 
 #### Monitor
-* tracks the simulation progress with log files and timing measures
+* Logfile
 
+* Timer & Profiler
 
-* API and inheritance structure
+#### Simulation
+* Contains (M)HD, gravity, particle, burn, and radiative transfer test problems
+* This is where we would create a new simulation
 
+#### Other Units
+* Note there are other units avaialable beyond the scope of this workshop.  Below they are mentioned
+  * Proton Imaging & Proton Emission
+  * Thomson Scattering
+  * Xray Imaging
+  * Piecewise cubic interpolation
+  * Quadratic, cubic, quartic root finders
+  * RungeKutta integration
+  
 
 ### Building a Test Problem
 * `./setup` is used to 'pick and choose' the lines of code FLASH needs for a simulation
