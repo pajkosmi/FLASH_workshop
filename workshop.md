@@ -104,7 +104,11 @@ qstat -f $PBS_JOBID
 
 #### Infrastructure
 * Grid
-
+  * Stores the data the physics unit will access
+  * Manages Eulerian grid (spatial domain) and movement of LaGrancian tracer particles
+    * Cartesian, spherical, cylindrical, & polar geometries
+  * Handles Boundary conditions and solving partial differential equations on the grid (ex Multipole solver)
+  * Can use uniform or adaptive grid (Octree based)
 * IO
 
 * Runtime parameters
