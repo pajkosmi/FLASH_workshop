@@ -158,7 +158,7 @@ qstat -f $PBS_JOBID
   * Follows active (massive, charged, sink) or passive (tracer) particles
   
 * Cosmology
-  * Solves Firedmann equation for scale factor in expanding universe
+  * Solves Friedmann equation for scale factor in expanding universe
   * Applies cosmological redshift to hydro quantities
     * Calculations assumed to take place in comoving coordinates
   * See Chapter 21 for more details
@@ -179,8 +179,12 @@ qstat -f $PBS_JOBID
 
 #### Monitor
 * Logfile
-
-* Timer & Profiler
+  * Manages output log (more specifics on log file in **Output Files** section)
+* Timer
+  * Manages timing routines to monitor performance
+  * Users can manually place labelled timers to measure performance for specific parts of the code or find load imbalances
+* Profiler
+  * Interface provided for third-party profilers or tracing libraries
 
 #### Simulation
 * Contains (M)HD, gravity, particle, burn, and radiative transfer test problems
