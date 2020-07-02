@@ -207,10 +207,10 @@ qstat -f $PBS_JOBID
 * `make -j` compiles the selected code (in parallel) within the object directory
   * This is how we get the files we're interested in, namely the executable and parameter file
   * The code is compiled based on the `Makefile.h` for dev-intel16.  If you look in the `BANG/sites/` directory, there are a variety of directories for different 'sites' or hardware platforms FLASH runs on.  
-  * If you were to download FLASH on your laptop, you would add a directory with the same name as the `hostname` of your laptop and add a Makefile specifying the file paths needed for various libraries & compilers
+  * If you were to download FLASH on your laptop, you would add a directory with the same name as the `hostname` of your laptop and add a `Makefile.h` specifying the file paths needed for various libraries & compilers
 * `flash4` is the binary executable file
   * Remember this is built *for your system* (in our case hpcc).  You could not copy this over to a machine with a different configuration (ex. your laptop).  Instead you would have to setup & make again on the different machine.
-  * The binary can be run in serial `./flash4` or parallel `mpirun -np NPROCS_HERE ./flash4`, given the proper parallel libraries were specified in the Makefile
+  * The binary can be run in serial `./flash4` or parallel `mpirun -np NPROCS_HERE ./flash4`, given the proper parallel libraries were specified in the `Makefile.h`
 * `flash.par` is the parameter file
   * The parameter file contains runtime parameters that allow the user to partially control the runtime environment (This must be in the same directory as the binary executable)
   * Some examples: the energy of the sedov explosion, physical size of the domain, CFL parameter, or how often to output a file (full list of possible parameters is generated in the `setup_params` file within the object directory
