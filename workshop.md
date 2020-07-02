@@ -39,11 +39,11 @@ module load HDF5/1.8.20
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
  * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
- * Mike step for downloading slm.sub script
+ * Below is the relevant submission script with necessary loaded modules
 
  ```
 #!/bin/bash -login
-#SBATCH --time=00:20:00
+#SBATCH --time=00:05:00
 #SBATCH -n 1
 #SBATCH -c 2
 #SBATCH -J sedov_Xcores
@@ -218,11 +218,19 @@ qstat -f $PBS_JOBID
 
 ### Running on HPCC
 * Today we will perform scaling tests for a sedov explosion
-* Above is the needed batch submission script
-* Outline batch submission
-* different scaling runs
-* highlight where to look in log file
-* directions for different procs.  Maybe sean's plots here?
+* Strong Scaling (Fixed problem size, different number of processors)
+  * Enter the `~/run_Sedov_FLASH/` directory 
+  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov1_proc.log"`
+  * Run `mpirun -np 1 ./flash4`
+  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov2_proc.log"`
+  * Run `mpirun -np 2 ./flash4`
+  * Repeat the above steps for 4, 8, & 16 processors
+  * Type `less sedov1_proc.log` & go to the end of the file by typing `G`
+  * In the row labeled `accounting unit` is a column labeled `avg/proc (s)` (means average time per processor)
+    * Follow the `avg/proc (s)` column down to the `evolution` row.  Record this number for all of your `.log` files
+  * Plot these times vs number of processors (1,2,4,8, & 16) to get a strong scaling plot
+* Weak scaling if time?
+* Maybe Sean's production plots here?
 
 ### Output Files
 * The data file (`.dat`) file
@@ -266,7 +274,7 @@ qstat -f $PBS_JOBID
 * Select `FLASH` filetype when loading in `chk` files
 * Found at: https://wci.llnl.gov/simulation/computer-codes/visit/
 
-###yt 
+### yt 
 * Useful for pretty pictures and robust analysis
 * Load in HDF5 `chk` files with `ds = yt.load('FLASH_chk_file_here')`
 * Found at: https://yt-project.org/
