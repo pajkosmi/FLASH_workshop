@@ -217,6 +217,8 @@ qstat -f $PBS_JOBID
 
 
 ### Running on HPCC
+* Today we will perform scaling tests for a sedov explosion
+* Above is the needed batch submission script
 * Outline batch submission
 * different scaling runs
 * highlight where to look in log file
@@ -259,9 +261,15 @@ qstat -f $PBS_JOBID
   
 
 ### Visualization and Data Analysis
-* VizIt for quick diagnostic
-* yt For pretty pictures and robust analysis
+#### VizIt
+* Useful for quick diagnostics or 'order of magnitude estimates'
+* Select `FLASH` filetype when loading in `chk` files
+* Found at: https://wci.llnl.gov/simulation/computer-codes/visit/
 
+###yt 
+* Useful for pretty pictures and robust analysis
+* Load in HDF5 `chk` files with `ds = yt.load('FLASH_chk_file_here')`
+* Found at: https://yt-project.org/
 
 ### New physics?
 * New directory in physics unit.  Account for REQUIRES in Config? 
