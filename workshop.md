@@ -96,7 +96,7 @@ qstat -f $PBS_JOBID
 * Kernels are typically found at the finest (leaf) level of the FLASH architecture 
   * This design helps modularity, by allowing new functionalities/solvers to be integrated into FLASH without rewriting existing code 
 
-* Below outlines 6 of the main units in FLASH:
+* Below outlines 5 of the main units in FLASH:
 #### Driver
 * Controls initialization and evolution of simulations
 * Organizes interaction between units
@@ -105,7 +105,7 @@ qstat -f $PBS_JOBID
 #### Infrastructure
 * Grid
   * Stores the data the physics unit will access
-  * Manages Eulerian grid (spatial domain) and movement of LaGrancian tracer particles
+  * Manages Eulerian grid (spatial domain) and movement of LaGrangian tracer particles
     * Cartesian, spherical, cylindrical, & polar geometries
   * Handles Boundary conditions and solving partial differential equations on the grid (ex Multipole solver)
   * Can use uniform or adaptive grid (Octree based)
