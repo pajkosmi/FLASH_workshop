@@ -6,7 +6,7 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 
 * [History & Documentation](#flash-history-and-documentation)
 * [Before the Workshop](#before-the-workshop)
-* [Features](#flash-features)
+* [Features](#flash-features-at-a-glance)
 * [Architecture](#flash-architecture)
 * [Test Problem](#building-a-test-problem)
 * [Run on HPCC](#running-on-hpcc)
@@ -72,19 +72,19 @@ qstat -f $PBS_JOBID
  * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
 
 
-### FLASH Features
+### FLASH Features at a Glance
 * Strengths
+  * Flexibility to construct new test problems
   * Multiphysics: (Relativistic) MHD, Gravity, Radiation Transport, Equations of State, Nuclear reactions, Particles, Cosmology
-  * Adaptive mesh refinement (AMR) with flux correction on fine/coarse boundaries
+  * Adaptive mesh refinement (AMR) & multiple geometries
   * OpenMP/MPI compatible
-  * IO compatibility with HDF5
-  * 
+  * Parallel IO compatibility with HDF5
 
 * Weaknesses
-  * Uniform timestepping (no time subcycling)
-  * what it's lacking compared to other codes (see Claire/forrest's athena/enzo comments)
-  *
-
+  * Only uniform timestepping (no time subcycling)
+  * Limited compatibility with GPUs (Jared is currently working on this)
+  * AMR is restricted to octree
+  
 
 ### FLASH Architecture
 * FLASH is written mostly in FORTRAN90
@@ -96,7 +96,7 @@ qstat -f $PBS_JOBID
 * Kernels are typically found at the finest (leaf) level of the FLASH architecture 
   * This design helps modularity, by allowing new functionalities/solvers to be integrated into FLASH without rewriting existing code 
 
-* FLASH is separated into 6 main units:
+* Below outlines 6 of the main units in FLASH:
 #### Driver
 * Controls initialization and evolution of simulations
 * Organizes interaction between units
@@ -109,14 +109,19 @@ qstat -f $PBS_JOBID
     * Cartesian, spherical, cylindrical, & polar geometries
   * Handles Boundary conditions and solving partial differential equations on the grid (ex Multipole solver)
   * Can use uniform or adaptive grid (Octree based)
-* IO
-
+* Input/Output (IO)
+  * Serial and parallel HDF5 output
+  * Creates files with vairous simulation (meta)data (outlined in **Output Files** section below)
 * Runtime parameters
-
+  * Stores and maintains runtime parameters used in the simulation
+  * Handles default parameters (found in `Config` files) and those user defined (found in `flash.par` file)
 * Multispecies
-
+  * Tracks multiple kinds of fluids (ex. air vs water or Ni56 vs C12)
+  * Typically treated as mass scalars advected along with the fluid
 * Physical Constants
-
+  * Stores commonly used physical constants in various units
+  * New constants can be added by the user in `PhysicalConstants init`
+  * ex: pi, Newton's gravitational constant, mass of an electron, Avogradro's number,...
 
 #### Physics
 * (Relativistic) MHD
