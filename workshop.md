@@ -121,14 +121,30 @@ qstat -f $PBS_JOBID
 * Physical Constants
   * Stores commonly used physical constants in various units
   * New constants can be added by the user in `PhysicalConstants init`
-  * ex: pi, Newton's gravitational constant, mass of an electron, Avogradro's number,...
+  * ex: pi, Newton's gravitational constant, mass of an electron, Avogadro's number,...
 
 #### Physics
 * (Relativistic) MHD
-
-* Equation of State
-
+  * Manages fluid flow
+  * Directionally split (PPM) & unsplit solvers
+  * `Spark` is the current GRMHD solver currently in development (today we will use its Newtonian version)
+    * Reconstruction techniques: TVD, FOG, WENO5, PPM, MP5
+    * Directionally unsplit, finite-volume, compressible
+    * Riemann solvers: HLLC, HLLD (MHD), HLLE (GRMHD)
+    * Divergence cleaning (glm) method for maintaining divergence(B) = 0
+    
+* Equation of State (EOS)
+  * Ensures thermodynamic consistency between variables for hydro and nuclear burning
+  * Different EOSs available: perfect gas (with multiple adiabatic indices), Helmholtz (accouns for relativistic/degenerate matter), & nuclear (tabulated)
+  
 * Local Source Terms
+  * Contain terms responsible for emitting/absorbing energy 
+    * Nuclear burning (7, 13, & 19 isotope reaction networks)
+    * Ionization in plasmas: He, C, N, O, Ne, Mg, Si, S, Ar, Ca, Fe, Ni, H, & electrons
+    * Stirring or driving terms in hydro simulations
+    * Energy deposited by lasers incident on the computational domain
+    * Heat exchange between ion, electron, & radiation components
+    * Advection-diffusion-reactions (commonly called flames or deflagration fronts)
 
 * Diffusive Terms
 
@@ -141,6 +157,10 @@ qstat -f $PBS_JOBID
 * Material Properties
 
 * Radiative Transfer
+
+* High Energy Density Physics Experiments
+  * Multi-temperature treatment of plasmas: ion, electron, & radiation (see Chapter 13 for relevant equations)
+  * 
 
 #### Monitor
 * Logfile
