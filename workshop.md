@@ -22,7 +22,7 @@ Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
 * User guide: http://flash.uchicago.edu/site/flashcode/user_support/flash4_ug_4p62.pdf
 
 ### Before the Workshop
- * Log onto HPCC, dev-intel16
+ * Log onto HPCC, dev-intel18
  * Load the necessary modules
 
   ```
@@ -31,7 +31,7 @@ module load GCC/6.4.0-2.28
 module load OpenMPI/2.1.2
 module load HDF5/1.8.20
   ```	
- * Please clone code from the master branch found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory (mike ensure makefile = gnu works)
+ * Please clone code from the Workshop_OShea branch found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory (mike ensure makefile = gnu works)
    * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
  * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=test_paramesh_2d.par -objdir=obj_Sedov_2D -makefile=gnu`
  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
@@ -39,35 +39,7 @@ module load HDF5/1.8.20
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
  * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
- * Below is the relevant submission script with necessary loaded modules
 
- ```
-#!/bin/bash -login
-#SBATCH --time=00:05:00
-#SBATCH -n 1
-#SBATCH -c 2
-#SBATCH -J sedov_Xcores
-#SBATCH --mem-per-cpu=2G
-#SBATCH -e %J.e
-#SBATCH -o %J.o
-#SBATCH -C NOAUTO:intel16
-
-### load necessary modules, e.g.
-module purge
-module load GCC/6.4.0-2.28
-module load OpenMPI/2.1.2
-module load HDF5/1.8.20
-
-
-### change to the working directory where your code is located
-cd /mnt/home/your_username/path_to_run_directory/run_Sedov_FLASH/
-
-## call your executable
-srun -n $SLURM_NTASKS ./flash4 -par_file flash.par
- 
-### output the resource usage of the job
-qstat -f $PBS_JOBID
- ```
 
  * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
 
@@ -84,6 +56,8 @@ qstat -f $PBS_JOBID
   * Only uniform timestepping (no time subcycling)
   * Limited compatibility with GPUs (Jared is currently working on this)
   * AMR is restricted to octree
+    * No 3D spherical geometry
+    * No logarithmically sized cells in spherical geometry
   
 
 ### FLASH Architecture
@@ -218,18 +192,32 @@ qstat -f $PBS_JOBID
 
 ### Running on HPCC
 * Today we will perform scaling tests for a sedov explosion
+* Enter the node reservation following Brian's instructions
+* Submit an interactive job with 16 cores using `salloc -N 1 -c 16 --time=0:20:00`
 * Strong Scaling (Fixed problem size, different number of processors)
   * Enter the `~/run_Sedov_FLASH/` directory 
-  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov1_proc.log"`
+  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov_strong_1P.log"`
   * Run `mpirun -np 1 ./flash4`
-  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov2_proc.log"`
+  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov_strong_2P.log"`
   * Run `mpirun -np 2 ./flash4`
   * Repeat the above steps for 4, 8, & 16 processors
-  * Type `less sedov1_proc.log` & go to the end of the file by typing `G`
+  * Type `less sedov_strong_1P.log` & go to the end of the file by typing `G`
   * In the row labeled `accounting unit` is a column labeled `avg/proc (s)` (means average time per processor)
     * Follow the `avg/proc (s)` column down to the `evolution` row.  Record this number for all of your `.log` files
-  * Plot these times vs number of processors (1,2,4,8, & 16) to get a strong scaling plot
-* Weak scaling if time?
+  * Plot these times vs number of processors (1, 2, 4, 8, & 16) to get a strong scaling plot
+* Weak scaling (Increasing problem size with number of processors)
+  * Enter the `~/run_Sedov_FLASH/` directory 
+  * Edit the `flash.par` parameter to set `log_file = "sedov_weak_1P.log"`
+  * In `flash.par` ensure `nblockx = 1` & `nblocky = 1`
+  * Run `mpirun -np 1 ./flash4`
+  * Edit the `flash.par` parameter to set `log_file = "sedov_weak_4P.log"`
+  * In `flash.par` ensure `nblockx = 2` & `nblocky = 2`
+  * Run `mpirun -np 4 ./flash4`
+  * Edit the `flash.par` parameter to set `log_file = "sedov_weak_16P.log"`
+  * In `flash.par` ensure `nblockx = 4` & `nblocky = 4`
+  * Run `mpirun -np 16 ./flash4`
+  * Once again at the bottom of each `.log` file, record the entry in the `avg/proc (s)` column and `evolution` row
+    * Plot these times vs number of processors (1, 4, & 16) to get a weak scaling plot
 * Maybe Sean's production plots here?
 
 ### Output Files
