@@ -111,7 +111,7 @@ qstat -f $PBS_JOBID
   * Can use uniform or adaptive grid (Octree based)
 * Input/Output (IO)
   * Serial and parallel HDF5 output
-  * Creates files with vairous simulation (meta)data (outlined in **Output Files** section below)
+  * Creates files with various simulation (meta)data (outlined in **Output Files** section below)
 * Runtime parameters
   * Stores and maintains runtime parameters used in the simulation
   * Handles default parameters (found in `Config` files) and those user defined (found in `flash.par` file)
@@ -135,7 +135,7 @@ qstat -f $PBS_JOBID
     
 * Equation of State (EOS)
   * Ensures thermodynamic consistency between variables for hydro and nuclear burning
-  * Different EOSs available: perfect gas (with multiple adiabatic indices), Helmholtz (accouns for relativistic/degenerate matter), & nuclear (tabulated)
+  * Different EOSs available: perfect gas (with multiple adiabatic indices), Helmholtz (accounts for relativistic/degenerate matter), & nuclear (tabulated)
   
 * Local Source Terms
   * Contain terms responsible for emitting/absorbing energy 
