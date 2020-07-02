@@ -147,20 +147,35 @@ qstat -f $PBS_JOBID
     * Advection-diffusion-reactions (commonly called flames or deflagration fronts)
 
 * Diffusive Terms
+  * Implements diffusive effects: head conduction, viscosity, & mass diffusivity
 
 * Gravity 
+  * Computes gravitational source terms
+    * Constant, plane-parallel, point mass, user defined, & self gravity
+      * Multipole and multigrid methods to solve Poisson's equation
 
 * Particles
-
+  * Follows active (massive, charged, sink) or passive (tracer) particles
+  
 * Cosmology
-
+  * Solves Firedmann equation for scale factor in expanding universe
+  * Applies cosmological redshift to hydro quantities
+    * Calculations assumed to take place in comoving coordinates
+  * See Chapter 21 for more details
+  
 * Material Properties
+  * Computes thermal conductivity, magnetitic resistivity, viscocity, & opacity values
+
 
 * Radiative Transfer
-
+  * Solves the radiative transfer equation
+    * Multigroup diffusion
+    * Neutrino leakage (exclusive to this development branch)
+    * M1 neutrino treatment (exclusive to this development branch)
+ 
 * High Energy Density Physics Experiments
   * Multi-temperature treatment of plasmas: ion, electron, & radiation (see Chapter 13 for relevant equations)
-  * 
+  
 
 #### Monitor
 * Logfile
