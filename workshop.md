@@ -34,7 +34,7 @@ module load HDF5/1.8.20
  * Switch branches using `git checkout Workshop_OShea`
  * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=workshop_flash.par -objdir=obj_Sedov_2D -makefile=gnu`
  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
- * Run `make -j` to compile the code
+ * Run `make -j` to compile the code; the last line should say SUCCESS
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
  * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
@@ -193,11 +193,12 @@ module load HDF5/1.8.20
 * Today we will perform scaling tests for a sedov explosion
 * Enter the node reservation following Brian's instructions
 * Submit an interactive job with 16 cores using `salloc -N 1 -c 16 --time=0:20:00`
+* Load the modules from the **Before the Workshop** section above
 * Strong Scaling (Fixed problem size, different number of processors)
   * Enter the `~/run_Sedov_FLASH/` directory 
-  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov_strong_1P.log"`
+  * Edit the `flash.par` setting `log_file = "sedov_strong_1P.log"`
   * Run `mpirun -np 1 ./flash4`
-  * Edit the `flash.par` parameter `log_file = "sedov.log"` to `log_file = "sedov_strong_2P.log"`
+  * Edit the `flash.par` setting `log_file = "sedov_strong_2P.log"`
   * Run `mpirun -np 2 ./flash4`
   * Repeat the above steps for 4, 8, & 16 processors
   * Type `less sedov_strong_1P.log` & go to the end of the file by typing `G`
