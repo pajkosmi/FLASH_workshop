@@ -40,7 +40,7 @@ module load HDF5/1.8.20
  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
 
 
- * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4`
+ * You're now all set up for the workshop.  If you'd like, feel free to see the output by running `./flash4` on an interactive session.
 
 
 ### FLASH Features at a Glance
