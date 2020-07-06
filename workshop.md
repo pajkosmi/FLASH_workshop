@@ -2,8 +2,6 @@
 ## O'Shea Group Meeting 9 July 2020
 ### Mike Pajkos
 
-Athena reference url: https://hackmd.io/qpV_Vo07SSWta5Ha6m9TkA?view
-
 * [History & Documentation](#flash-history-and-documentation)
 * [Before the Workshop](#before-the-workshop)
 * [Features](#flash-features-at-a-glance)
@@ -31,9 +29,10 @@ module load GCC/6.4.0-2.28
 module load OpenMPI/2.1.2
 module load HDF5/1.8.20
   ```	
- * Please clone code from the Workshop_OShea branch found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory (mike ensure makefile = gnu works)
+ * Please clone code using the https protocol found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory 
    * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
- * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=test_paramesh_2d.par -objdir=obj_Sedov_2D -makefile=gnu`
+ * Switch branches using `git checkout Workshop_OShea`
+ * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=workshop_flash.par -objdir=obj_Sedov_2D -makefile=gnu`
  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
  * Run `make -j` to compile the code
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
@@ -180,7 +179,7 @@ module load HDF5/1.8.20
   * We use a variety of setup *options* (ex. `-2d`, `-nxb=18`) & setup *shortcuts* (ex. `+spark`, `+pm4dev`) to specify everything from grid geometry to what kind of hydro solvers to use (Full list available in chapter 5.1 of user guide or in `BANG/bin/Readme.SetupVars`)
 * `make -j` compiles the selected code (in parallel) within the object directory
   * This is how we get the files we're interested in, namely the executable and parameter file
-  * The code is compiled based on the `Makefile.h` for dev-intel16.  If you look in the `BANG/sites/` directory, there are a variety of directories for different 'sites' or hardware platforms FLASH runs on.  
+  * The code is compiled based on the `Makefile.h` for dev-intel18.  If you look in the `BANG/sites/` directory, there are a variety of directories for different 'sites' or hardware platforms FLASH runs on.  
   * If you were to download FLASH on your laptop, you would add a directory with the same name as the `hostname` of your laptop and add a `Makefile.h` specifying the file paths needed for various libraries & compilers
 * `flash4` is the binary executable file
   * Remember this is built *for your system* (in our case hpcc).  You could not copy this over to a machine with a different configuration (ex. your laptop).  Instead you would have to setup & make again on the different machine.
@@ -267,5 +266,10 @@ module load HDF5/1.8.20
 * Load in HDF5 `chk` files with `ds = yt.load('FLASH_chk_file_here')`
 * Found at: https://yt-project.org/
 
-### New physics?
-* New directory in physics unit.  Account for REQUIRES in Config? 
+### New physics
+* Incorporating new physics into FLASH comes in two flavors
+  * Updating existing physics (ex: Hydro --> MHD)
+    * Add new features to existing routines, like in `physics/Hydro/HydroMain/Spark/` 
+  * Creating new physics modules alltogether (ex: including lattice QCD)
+    * Write new routines from scratch and give them their own directory (ex: `physics/LatticeQCD/`)
+* Make sure to include the new physics in the `Config` file in the Simulation directory 
