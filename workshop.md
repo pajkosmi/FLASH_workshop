@@ -32,7 +32,7 @@ module load HDF5/1.8.20
  * Please clone code using the https protocol found at: https://github.com/snaphu-msu/BANG and enter the new `BANG/` directory 
    * By downloading and working with FLASH, you agree to the following terms: http://flash.uchicago.edu/site/flashcode/user_support/flash_ug_devel/node3.html
  * Switch branches using `git checkout Workshop_OShea`
- * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -parfile=workshop_flash.par -objdir=obj_Sedov_2D -makefile=gnu`
+ * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=monotonic -parfile=workshop_flash.par -objdir=obj_Sedov_2D -makefile=gnu`
  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
  * Run `make -j` to compile the code; the last line should say SUCCESS
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
