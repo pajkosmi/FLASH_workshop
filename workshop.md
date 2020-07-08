@@ -34,7 +34,7 @@ module load HDF5/1.8.20
  * Switch branches using `git checkout Workshop_OShea`
  * On the command line run `./setup Sedov -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=monotonic -parfile=workshop_flash.par -objdir=obj_Sedov_2D -makefile=gnu`
  * This will create an 'object directory' called `obj_Sedov_2D`; enter the `obj_Sedov_2D` directory
- * Run `make -j` to compile the code; the last line should say SUCCESS
+ * Run `make -j8` to compile the code; the last line should say SUCCESS
  * Within `obj_Sedov_2D`, there will be an executable and parameter (`.par`) file: `flash4` and `flash.par`, respectively
  * It is standard to run FLASH simulations in a directory outside of the object directory (I'll explain why in the workshop), so return to your HPCC home directory and create a directory for running this simulation: `run_Sedov_FLASH/`
  * Copy your executable (`flash4`) and `.par` file (`flash.par`) from your object directory `~/BANG/obj_Sedov_2D/` into your new run directory `~/run_Sedov_FLASH/`
