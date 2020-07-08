@@ -191,8 +191,9 @@ module load HDF5/1.8.20
 
 ### Running on HPCC
 * Today we will perform scaling tests for a sedov explosion
-* Enter the node reservation following Brian's instructions
-* Submit an interactive job using Brian's instructions (`salloc -N 1 -n 16 --time=0:20:00 allocation flag here?`)
+* We will be using the following dev-intel18 nodes: skl-097,98,103,104
+  * Hardware info here https://wiki.hpcc.msu.edu/pages/viewpage.action?pageId=20120131 
+* Submit an interactive job using Brian's instructions (`salloc -N 1 -n 16 --time=0:20:00 --reservation=oshea_90`)
 * Load the modules from the **Before the Workshop** section above
 * Strong Scaling (Fixed problem size, different number of processors)
   * Enter the `~/run_Sedov_FLASH/` directory 
