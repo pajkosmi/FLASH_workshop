@@ -192,32 +192,35 @@ module load HDF5/1.8.20
 ### Running on HPCC
 * Today we will perform scaling tests for a sedov explosion
 * Enter the node reservation following Brian's instructions
-* Submit an interactive job with 16 cores using `salloc -N 1 -c 16 --time=0:20:00`
+* Submit an interactive job using Brian's instructions (`salloc -N 1 -n 16 --time=0:20:00 allocation flag here?`)
 * Load the modules from the **Before the Workshop** section above
 * Strong Scaling (Fixed problem size, different number of processors)
   * Enter the `~/run_Sedov_FLASH/` directory 
   * Edit the `flash.par` setting `log_file = "sedov_strong_1P.log"`
-  * Run `mpirun -np 1 ./flash4`
+  * Run `srun -n 1 ./flash4`
   * Edit the `flash.par` setting `log_file = "sedov_strong_2P.log"`
-  * Run `mpirun -np 2 ./flash4`
+  * Run `srun -n 2 ./flash4`
   * Repeat the above steps for 4, 8, & 16 processors
   * Type `less sedov_strong_1P.log` & go to the end of the file by typing `G`
   * In the row labeled `accounting unit` is a column labeled `avg/proc (s)` (means average time per processor)
     * Follow the `avg/proc (s)` column down to the `evolution` row.  Record this number for all of your `.log` files
   * Plot these times vs number of processors (1, 2, 4, 8, & 16) to get a strong scaling plot
+    * What do you notice?
 * Weak scaling (Increasing problem size with number of processors)
   * Enter the `~/run_Sedov_FLASH/` directory 
   * Edit the `flash.par` parameter to set `log_file = "sedov_weak_1P.log"`
   * In `flash.par` ensure `nblockx = 1` & `nblocky = 1`
-  * Run `mpirun -np 1 ./flash4`
+  * Run `srun -n 1 ./flash4`
   * Edit the `flash.par` parameter to set `log_file = "sedov_weak_4P.log"`
   * In `flash.par` ensure `nblockx = 2` & `nblocky = 2`
-  * Run `mpirun -np 4 ./flash4`
+  * Run `srun -n 4 ./flash4`
   * Edit the `flash.par` parameter to set `log_file = "sedov_weak_16P.log"`
   * In `flash.par` ensure `nblockx = 4` & `nblocky = 4`
-  * Run `mpirun -np 16 ./flash4`
+  * Run `srun -n 16 ./flash4`
   * Once again at the bottom of each `.log` file, record the entry in the `avg/proc (s)` column and `evolution` row
     * Plot these times vs number of processors (1, 4, & 16) to get a weak scaling plot
+      * What do you notice?
+* If you are ahead, explore the end of the `.log` file.  In the `accounting unit` is the timing of different parts of the code.  Which parts seem to increase significantly in the strong & weak scaling cases?
 * Maybe Sean's production plots here?
 
 ### Output Files
@@ -242,18 +245,18 @@ module load HDF5/1.8.20
 
 ### Creating a New Test Problem
 * (Mike this you will walk through)
-* For a new problem, you will need certain 'ingredients'.  Here we will setup Rayleigh-Taylor instability.
-  * First a we setup a directory in `/BANG/source/Simulation/SimulationMain/RayleighTaylor`
+* For a new problem, you will need certain 'ingredients'.  Here we will setup a Sod shocktube problem.
+  * I will walk through this on my screen.  If you'd like to follow along, we'll be in `/BANG/source/Simulation/SimulationMain/Workshop_Sod`
   * `Config` files outline the necessary Units, physics, and variables (as well as their default values) needed to model the simulation
     * These files are what is parsed by `setup` and specify exactly which lines of code are to be linked to in the object directory
   * `Makefile` lists which source `.F90` files will be compiled
   * `flash.par` specifies certain runtime parameters (ex. density of top fluid or number of refinement level)
     * Note this is what is copied into the object directory when we run setup 
-  * `Simulation_data.F90` stores the variables specified in `flash.par`
+  * `Simulation_data.F90` stores simulation specific variables, specified in `flash.par`
   * `Simulation_init.F90` initializes the values in `Simulation_data.F90` based on the values specified in `flash.par`
   * `Simulation_initBlock.F90` assigns these newly initialized values onto the computational domain
-    * For this Rayliegh-Taylor example, it initially defines the denser fluid on top and less dense fluid below
-  * Run `./setup RayleighTaylor -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=native -objdir=obj_RTinstab_2D -makefile=gnu`
+    * For this Sod shocktube example, it initially defines the densitiy and pressure on each side of an interface
+  * Run `./setup Workshop_Sod -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=monotonic -objdir=obj_Sod_2D -makefile=gnu`
   
 
 ### Visualization and Data Analysis
