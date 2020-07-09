@@ -245,9 +245,8 @@ module load HDF5/1.8.20
   
 
 ### Creating a New Test Problem
-* (Mike this you will walk through)
 * For a new problem, you will need certain 'ingredients'.  Here we will setup a Sod shocktube problem.
-  * I will walk through this on my screen.  If you'd like to follow along, we'll be in `/BANG/source/Simulation/SimulationMain/Workshop_Sod`
+  * I will walk through this graphically on my screen.  If you'd like to look around, we'll be in `/BANG/source/Simulation/SimulationMain/Workshop_Sod`
   * `Config` files outline the necessary Units, physics, and variables (as well as their default values) needed to model the simulation
     * These files are what is parsed by `setup` and specify exactly which lines of code are to be linked to in the object directory
   * `Makefile` lists which source `.F90` files will be compiled
@@ -257,6 +256,8 @@ module load HDF5/1.8.20
   * `Simulation_init.F90` initializes the values in `Simulation_data.F90` based on the values specified in `flash.par`
   * `Simulation_initBlock.F90` assigns these newly initialized values onto the computational domain
     * For this Sod shocktube example, it initially defines the densitiy and pressure on each side of an interface
+    
+  * If you'd like to explore more into setting up a problem.  Begin in the `Simulation_data.F90` file.  There are guided directions marked with the `!!%%` symbol.
   * Run `./setup Workshop_Sod -auto -2d -debug -nxb=18 -nyb=18 +spark +pm4dev -gridinterpolation=monotonic -objdir=obj_Sod_2D -makefile=gnu`
   
 
