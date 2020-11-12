@@ -1,4 +1,6 @@
 # FLASH_workshop
-A repository containing directions for the the O'Shea Group meeting workshop on 9 July 2020
+A repository containing information about FLASH:
 
-Setup directions and outline for activity will be written in the Wiki
+`workshop.md`: directions for the the O'Shea Group meeting workshop on 9 July 2020
+
+`FLASH_AMReX_vocab.md`: contains some definitions to clear up some parlance between FLASH & AMReX
