@@ -8,4 +8,8 @@ This document is meant to guide the reader from the inner workings of FLASH (spe
   * There is a distiction between blocks and tiles but it is beyond the scope of this writeup.  For now we'll only worry about blocks.
 * The hydro solver that evolves the fluids on these blocks is called `Spark` 
   * Once in the `FLASH5` directory, `Spark` can be found in the `source/physics/Hydro/HydroMain/Spark/general_relativity/` directory
-* Commonly 
+* Accessing/modifying the data in a block is done through `call blockDesc%getDataPtr(solnData,CENTER)` (ex. `hy_rk_updateSoln.F90`)
+  * Here `blockDesc` is the 'block descriptor' that specifies which block is being operated on
+  * `%getDataPtr` gets a pointer whose target is the block of data 
+  * `(solnData,CENTER)` specifies to point to the cell centered data.  The pointer targetting these data is called `solnData`
+  * `solnData(:,i,j,k)` is a 4D array indexed by physical quantity (ex density, pressure, ...), x-coordinate, y-coordinate, & z-coordinate
