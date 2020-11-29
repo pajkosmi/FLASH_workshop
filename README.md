@@ -5,4 +5,4 @@ A repository containing information about FLASH:
 
 `FLASH_AMReX_vocab.md`: contains definitions to clear up some parlance between FLASH & AMReX
 
-`FLASH_GRHydro_Setup.md`: directions to setting up the GRHydro test problem starting the from github clone
+`FLASH_GRHydro_Setup.md`: directions to setting up the GRHydro test problem starting from the github clone
